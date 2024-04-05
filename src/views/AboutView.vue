@@ -1,6 +1,16 @@
+<script>
+import UIInput from '@/components/UIInput.vue'
+
+export default {
+  components: {
+    UIInput
+  }
+}
+</script>
 <template>
   <div class="about">
     <h1>This is an about page</h1>
+    <UIInput type="text" placeholder="ten dang nhap"></UIInput>
   </div>
 </template>
 
