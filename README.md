@@ -37,3 +37,9 @@ npm run build
 ```sh
 npm run lint
 ```
+
+### VueJS Boilerplate
+
+```sh
+https://github.com/zmts/beauty-vuejs-boilerplate.git
+```
