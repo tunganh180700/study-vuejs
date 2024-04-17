@@ -4,6 +4,13 @@ import UIInput from '@/components/UIInput.vue'
 export default {
   components: {
     UIInput
+  },
+  methods: {
+    signout() {
+      localStorage.removeItem('token')
+      localStorage.removeItem('role')
+      this.$router.push('login')
+    }
   }
 }
 </script>
@@ -11,6 +18,7 @@ export default {
   <div class="about">
     <h1>This is an about page</h1>
     <UIInput type="text" placeholder="ten dang nhap"></UIInput>
+    <p @click="signout()">dang xut</p>
   </div>
 </template>
 

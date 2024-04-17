@@ -6,15 +6,21 @@ export default {
 
   props: {
     type: { type: String },
-    placeholder: { type: String }
+    placeholder: { type: String },
+    name: { type: String },
+    vModel: { type: String },
+    heightCss: { type: String },
+    borderRadiusCss: { type: String },
+    borderCss: { type: String }
   },
 
   data() {
     return {
       styleObject: reactive({
-        height: '30px',
-        borderRadius: '5px',
-        border: '1px solid black'
+        padding: '10px',
+        height: this.heightCss,
+        borderRadius: this.borderRadiusCss,
+        border: this.borderCss
       })
     }
   }
@@ -23,6 +29,13 @@ export default {
 
 <template>
   <div class="input">
-    <input :type="type" :placeholder="placeholder" :style="styleObject" />
+    <input
+      :value="vModel"
+      @input="$emit('update:vModel', $event.target.value)"
+      :type="type"
+      :name="name"
+      :placeholder="placeholder"
+      :style="styleObject"
+    />
   </div>
 </template>
