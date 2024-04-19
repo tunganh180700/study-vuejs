@@ -1,11 +1,20 @@
 <script>
 import UIInput from '@/components/UIInput.vue'
+import axios from 'axios'
 
 export default {
   components: {
     UIInput
   },
+  data() {
+    return {
+      username: ''
+    }
+  },
   methods: {
+    getUsername(){
+      axios.g
+    }
     signout() {
       localStorage.removeItem('token')
       localStorage.removeItem('role')
@@ -16,8 +25,7 @@ export default {
 </script>
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
-    <UIInput type="text" placeholder="ten dang nhap"></UIInput>
+    <h1>Xin chao {{ username }}</h1>
     <p @click="signout()">dang xut</p>
   </div>
 </template>
