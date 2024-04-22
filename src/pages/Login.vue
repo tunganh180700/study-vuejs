@@ -25,7 +25,6 @@ export default {
         username: this.username,
         password: this.password
       }
-      console.log(payload)
       axios
         .post(loginAPI, payload)
         .then((response) => {
