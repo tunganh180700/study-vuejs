@@ -9,11 +9,15 @@ export default {
   components: { UIInput, UIButton, UIRadioButton },
   data() {
     return {
+      options: [
+        { text: 'Male', value: 1 },
+        { text: 'Female', value: 2 }
+      ],
       firstname: '',
       lastname: '',
       username: '',
       password: '',
-      gender: 0,
+      gender: 1,
       isSubmitting: false
     }
   },
@@ -27,12 +31,11 @@ export default {
         password: this.password,
         gender: this.gender
       }
-      console.log(payload)
+      console.log(payload.gender)
       axios
         .post(registerAPI, payload)
         .then((response) => {
           this.$router.push('login')
-
           return response
         })
         .catch((error) => {
@@ -89,20 +92,15 @@ export default {
       ></UIInput>
       <div class="radio-group">
         <UIRadioButton
+          v-for="option in options"
           type="radio"
-          id="female"
+          :id="option.value"
           name="gender"
-          value="1"
-          genderTitle="Female"
+          :value="option.value"
+          :genderTitle="option.text"
+          @update:value="gender = $event"
         ></UIRadioButton
         ><br />
-        <UIRadioButton
-          type="radio"
-          id="male"
-          name="gender"
-          value="2"
-          genderTitle="Male"
-        ></UIRadioButton>
       </div>
       <UIButton
         :disabled="isSubmitting"
@@ -115,6 +113,8 @@ export default {
         color="white"
         widthCss="100%"
       ></UIButton>
+      <p>Selected: {{ gender }}</p>
+
       <div class="btn-back" @click="this.$router.push('login')">
         <p>Back</p>
       </div>
