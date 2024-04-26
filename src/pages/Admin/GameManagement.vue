@@ -46,7 +46,9 @@ export default {
     <template #column2="{ data }">
       {{ data.publisher_name }}
     </template>
-    <template #column3=""> <IconUpdate width="10%" /> </template>
+    <template #column3="">
+      <IconUpdate width="10%" @click="this.$router.push('edit-game')" />
+    </template>
     <template #column4=""> <IconDelete width="10%" /> </template>
   </UITable>
 </template>
