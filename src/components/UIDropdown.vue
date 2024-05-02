@@ -4,17 +4,22 @@ export default {
   props: {
     name: { type: String },
     idDropdown: { type: String },
-    list: { type: Array }
+    list: { type: Array },
+    valueOption: { type: String }
+  },
+  methods: {
+    getItemValue(item) {
+      return item[this.valueOption]
+    }
   }
 }
 </script>
 <template>
   <div class="input">
     <select :name="name" :id="idDropdown">
-      <option v-for="item in list" :key="i.game_type_id" :value="i.game_type_id">
-        {{ i.game_type }}
+      <option v-for="(item, i) in list" :key="i" :value="getItemValue(item)">
+        <slot :data="item"></slot>
       </option>
     </select>
   </div>
-  s
 </template>

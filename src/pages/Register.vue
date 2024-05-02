@@ -31,7 +31,6 @@ export default {
         password: this.password,
         gender: this.gender
       }
-      console.log(payload.gender)
       axios
         .post(registerAPI, payload)
         .then((response) => {

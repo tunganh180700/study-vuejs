@@ -1,6 +1,6 @@
 <script>
 import axios from 'axios'
-import { getAllGames } from '../../config/api.js'
+import { getAllGames, getGameById } from '../../config/api.js'
 import UITable from '../../components/UITable.vue'
 import IconUpdate from '../../components/icons/IconUpdate.vue'
 import IconDelete from '../../components/icons/IconDelete.vue'
@@ -46,8 +46,8 @@ export default {
     <template #column2="{ data }">
       {{ data.publisher_name }}
     </template>
-    <template #column3="">
-      <IconUpdate width="10%" @click="this.$router.push('edit-game')" />
+    <template #column3="{ data }">
+      <IconUpdate width="10%" @click="this.$router.push(`edit-game/` + data.game_id)" />
     </template>
     <template #column4=""> <IconDelete width="10%" /> </template>
   </UITable>

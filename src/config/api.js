@@ -9,3 +9,4 @@ export const getGameById = `${host}api/game/`
 export const updateGame = `${host}api/game/update/`
 
 export const getAllGameType = `${host}api/game-type/`
+export const getAllPublisher = `${host}api/publisher/`

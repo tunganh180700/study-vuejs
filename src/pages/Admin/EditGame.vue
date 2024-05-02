@@ -1,20 +1,28 @@
 <script>
 import axios from 'axios'
 import UIInput from '../../components/UIInput.vue'
-import { getAllGameType } from '../../config/api.js'
+import UIDropdown from '../../components/UIDropdown.vue'
+import { getAllGameType, getAllPublisher, getGameById } from '../../config/api.js'
 
 export default {
   name: 'EditGame',
   components: {
-    UIInput
+    UIInput,
+    UIDropdown
   },
   data() {
     return {
-      gameTypes: []
+      gameTypes: [],
+      publishers: [],
+      game_id: this.$route.params.id,
+      game_name: '',
+      game_type_id: 0
     }
   },
   created() {
     this.getAllGameType()
+    this.getAllPublisher()
+    this.getGameById(this.game_id)
   },
   methods: {
     getAllGameType() {
@@ -27,6 +35,31 @@ export default {
         .catch((error) => {
           return error
         })
+    },
+    getAllPublisher() {
+      axios
+        .get(getAllPublisher)
+        .then((response) => {
+          this.publishers = response.data
+          return response
+        })
+        .catch((error) => {
+          return error
+        })
+    },
+    getGameById(game_id) {
+      axios
+        .get(getGameById + game_id)
+        .then((response) => {
+          this.game_name = response.data.data.game_name
+          this.game_type_id = response.data.data.game_type_id
+          console.log(response.data.data.game_type_id)
+          return response.data
+        })
+        .catch((error) => {
+          console.error(error)
+          return error
+        })
     }
   }
 }
@@ -35,31 +68,34 @@ export default {
   <div class="container">
     <div class="register">
       <h1>EDIT</h1>
-      <!-- <UIInput
-        :vModel="password"
-        @update:vModel="password = $event"
-        type="password"
-        placeholder="Password"
-        name="password"
+      <UIInput
+        :vModel="game_name"
+        @update:vModel="game_name = $event"
+        type="text"
+        placeholder="Game"
+        name="game_name"
         heightCss="30px"
         borderRadiusCss="10px"
         borderCss="1px solid black"
-      ></UIInput> -->
-      <div class="input">
-        <select name="cars" id="cars">
-          <option v-for="i in gameTypes" :key="i.game_type_id" :value="i.game_type_id">
-            {{ i.game_type }}
-          </option>
-        </select>
-      </div>
-      <div class="input">
-        <select name="cars" id="cars">
-          <option value="volvo">Volvo</option>
-          <option value="saab">Saab</option>
-          <option value="mercedes">Mercedes</option>
-          <option value="audi">Audi</option>
-        </select>
-      </div>
+      ></UIInput>
+      <UIDropdown
+        name="types"
+        idDropdown="types"
+        :list="gameTypes"
+        valueOption="game_type_id"
+        v-model="this.game_type_id"
+      >
+        <template v-slot="{ data }">{{ data.game_type }}</template>
+      </UIDropdown>
+      <UIDropdown
+        name="publishers"
+        idDropdown="publishers"
+        :list="publishers"
+        valueOption="publisher_id"
+      >
+        <template v-slot="{ data }">{{ data.publisher_name }}</template>
+      </UIDropdown>
+      <button @click="this.getGameById(this.game_id)">sd</button>
     </div>
   </div>
 </template>
