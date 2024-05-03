@@ -5,19 +5,29 @@ export default {
     name: { type: String },
     idDropdown: { type: String },
     list: { type: Array },
-    valueOption: { type: String }
+    valueOption: { type: String },
+    choosen: { type: Number }
   },
   methods: {
     getItemValue(item) {
       return item[this.valueOption]
+    },
+    onChange(event) {
+      console.log(event.target.value)
+      return event.target.value
     }
   }
 }
 </script>
 <template>
   <div class="input">
-    <select :name="name" :id="idDropdown">
-      <option v-for="(item, i) in list" :key="i" :value="getItemValue(item)">
+    <select :name="name" :id="idDropdown" @change="onChange">
+      <option
+        v-for="(item, i) in list"
+        :key="i"
+        :value="getItemValue(item)"
+        :selected="choosen === item[this.valueOption]"
+      >
         <slot :data="item"></slot>
       </option>
     </select>

@@ -2,13 +2,15 @@
 import axios from 'axios'
 import UIInput from '../../components/UIInput.vue'
 import UIDropdown from '../../components/UIDropdown.vue'
-import { getAllGameType, getAllPublisher, getGameById } from '../../config/api.js'
+import { getAllGameType, getAllPublisher, getGameById, updateGame } from '../../config/api.js'
+import UIButton from '@/components/UIButton.vue'
 
 export default {
   name: 'EditGame',
   components: {
     UIInput,
-    UIDropdown
+    UIDropdown,
+    UIButton
   },
   data() {
     return {
@@ -16,7 +18,9 @@ export default {
       publishers: [],
       game_id: this.$route.params.id,
       game_name: '',
-      game_type_id: 0
+      game_type_id: 0,
+      publisher_id: 0,
+      isSubmitting: false
     }
   },
   created() {
@@ -47,16 +51,35 @@ export default {
           return error
         })
     },
-    getGameById(game_id) {
-      axios
+    async getGameById(game_id) {
+      await axios
         .get(getGameById + game_id)
         .then((response) => {
           this.game_name = response.data.data.game_name
           this.game_type_id = response.data.data.game_type_id
-          console.log(response.data.data.game_type_id)
+          this.publisher_id = response.data.data.publisher_id
           return response.data
         })
         .catch((error) => {
+          console.error(error)
+          return error
+        })
+    },
+    async updateInfoOfGame() {
+      this.isSubmitting = true
+      const payload = {
+        game_name: this.game_name,
+        game_type_id: this.game_type_id,
+        publisher_id: this.publisher_id
+      }
+      await axios
+        .put(updateGame + this.game_id, payload)
+        .then((response) => {
+          console.log(payload)
+          return response
+        })
+        .catch((error) => {
+          this.isSubmitting = false
           console.error(error)
           return error
         })
@@ -83,7 +106,7 @@ export default {
         idDropdown="types"
         :list="gameTypes"
         valueOption="game_type_id"
-        v-model="this.game_type_id"
+        :choosen="game_type_id"
       >
         <template v-slot="{ data }">{{ data.game_type }}</template>
       </UIDropdown>
@@ -92,10 +115,24 @@ export default {
         idDropdown="publishers"
         :list="publishers"
         valueOption="publisher_id"
+        :choosen="publisher_id"
       >
         <template v-slot="{ data }">{{ data.publisher_name }}</template>
       </UIDropdown>
-      <button @click="this.getGameById(this.game_id)">sd</button>
+      <UIButton
+        :disabled="isSubmitting"
+        @click="updateInfoOfGame()"
+        type="button"
+        value="Update"
+        paddingCss="5px"
+        borderRadiusCss="20px"
+        bgColor="#6fb555"
+        color="white"
+        widthCss="100%"
+      ></UIButton>
+      <div class="btn-back" @click="this.$router.push({ name: 'game-management' })">
+        <p>Back</p>
+      </div>
     </div>
   </div>
 </template>
