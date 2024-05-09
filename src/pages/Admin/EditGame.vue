@@ -51,8 +51,8 @@ export default {
           return error
         })
     },
-    async getGameById(game_id) {
-      await axios
+    getGameById(game_id) {
+      axios
         .get(getGameById + game_id)
         .then((response) => {
           this.game_name = response.data.data.game_name
@@ -65,17 +65,16 @@ export default {
           return error
         })
     },
-    async updateInfoOfGame() {
+    updateInfoOfGame() {
       this.isSubmitting = true
       const payload = {
         game_name: this.game_name,
         game_type_id: this.game_type_id,
         publisher_id: this.publisher_id
       }
-      await axios
+      axios
         .put(updateGame + this.game_id, payload)
         .then((response) => {
-          console.log(payload)
           return response
         })
         .catch((error) => {
@@ -107,6 +106,7 @@ export default {
         :list="gameTypes"
         valueOption="game_type_id"
         :choosen="game_type_id"
+        @update:choosen="game_type_id = $event"
       >
         <template v-slot="{ data }">{{ data.game_type }}</template>
       </UIDropdown>
@@ -116,6 +116,7 @@ export default {
         :list="publishers"
         valueOption="publisher_id"
         :choosen="publisher_id"
+        @update:choosen="publisher_id = $event"
       >
         <template v-slot="{ data }">{{ data.publisher_name }}</template>
       </UIDropdown>

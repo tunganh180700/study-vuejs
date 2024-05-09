@@ -13,8 +13,9 @@ export default {
       return item[this.valueOption]
     },
     onChange(event) {
-      console.log(event.target.value)
-      return event.target.value
+      const selectedValue = parseInt(event.target.value)
+      console.log(typeof selectedValue)
+      this.$emit('update:choosen', selectedValue)
     }
   }
 }

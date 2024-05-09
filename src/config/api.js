@@ -7,6 +7,7 @@ export const getUserAPI = `${host}api/v1/users`
 export const getAllGames = `${host}api/game/`
 export const getGameById = `${host}api/game/`
 export const updateGame = `${host}api/game/update/`
+export const deleteGame = `${host}api/game/delete/`
 
 export const getAllGameType = `${host}api/game-type/`
 export const getAllPublisher = `${host}api/publisher/`
